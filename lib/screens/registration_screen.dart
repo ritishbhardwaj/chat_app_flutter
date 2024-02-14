@@ -3,6 +3,7 @@
 
 import 'dart:developer';
 
+import 'package:chat_app/extensions/build_context_extensions.dart';
 import 'package:chat_app/widgets/custom_text_field_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class RegistrationPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(onPressed: (){
-                  
+                  registerNewUser();
                 },
                  child: Text("Register Now")
                                 
@@ -52,13 +53,15 @@ class RegistrationPage extends StatelessWidget {
 
     final email = emailController.text;
     final password=passwordController.text;
-    FirebaseAuth.instance.
-    createUserWithEmailAndPassword(email: email , password: password)
-    .then((value){
+    if (email.isNotEmpty && password.isNotEmpty){
 
-      // iss syntax ka mtlb hai 
-      log(value.user!.uid);
-    });
+     await  FirebaseAuth.instance.
+      createUserWithEmailAndPassword(email: email , password: password)
+      .then((value){
+        // iss syntax ka mtlb hai 
+        log(value.user!.uid);
+      });
+    }
 
   }
 }
