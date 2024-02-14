@@ -1,6 +1,7 @@
 
 
 
+import 'package:chat_app/screens/registration_screen.dart';
 import 'package:chat_app/styles/constant_styles.dart';
 import 'package:chat_app/widgets/custom_text_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,14 @@ class LoginScreen extends StatelessWidget {
 
           //Email Vala Box
           CustomTextField(hintText: "Email", isPassword: false, icon:Icons.email),
+          CustomTextField(hintText: "Password", isPassword: true, icon:Icons.lock),
+
+          GestureDetector(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (_)=> RegistrationPage() ));
+            },
+            child: Text("new user ?  create new account")
+            ),
 
 
         ],
