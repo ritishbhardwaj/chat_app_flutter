@@ -1,18 +1,28 @@
 
 
 
+// import 'dart:js';
+
 import 'package:chat_app/extensions/build_context_extensions.dart';
+import 'package:chat_app/screens/chat_screen.dart';
 import 'package:chat_app/screens/registration_screen.dart';
 import 'package:chat_app/styles/constant_styles.dart';
 import 'package:chat_app/widgets/custom_text_field_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
    LoginScreen({super.key});
 
-  final passwordController = TextEditingController();
-  final emailController = TextEditingController();
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
+class _LoginScreenState extends State<LoginScreen> {
+  final passwordController = TextEditingController();
+
+  final emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +36,9 @@ class LoginScreen extends StatelessWidget {
           CustomTextField(hintText: "Email", isPassword: false, icon:Icons.email,controller: emailController),
           CustomTextField(hintText: "Password", isPassword: true, icon:Icons.lock, controller: passwordController,),
 
+          ElevatedButton(onPressed: (){
+            loginUser();
+          }, child: Text("Login")),
 
 
           GestureDetector(
@@ -42,7 +55,16 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-  // Future<void> 
+
+  Future<void>  loginUser() async{
+
+   await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text,
+       password: passwordController.text).
+       then((value) {
+          context.navigateToScreen(ChatScreen(),isReplace: true);
+       });
+  }
 }
 
 // class CustomTextField extends StatelessWidget {

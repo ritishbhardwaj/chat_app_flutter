@@ -5,18 +5,25 @@ import 'dart:developer';
 
 import 'package:chat_app/extensions/build_context_extensions.dart';
 import 'package:chat_app/model/users.dart';
+import 'package:chat_app/screens/chat_screen.dart';
 import 'package:chat_app/widgets/custom_text_field_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class RegistrationPage extends StatelessWidget {
+class RegistrationPage extends StatefulWidget {
    RegistrationPage({super.key});
 
-  final nameController= TextEditingController();
-  final emailController= TextEditingController();
-  final passwordController= TextEditingController();
+  @override
+  State<RegistrationPage> createState() => _RegistrationPageState();
+}
 
+class _RegistrationPageState extends State<RegistrationPage> {
+  final nameController= TextEditingController();
+
+  final emailController= TextEditingController();
+
+  final passwordController= TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +57,7 @@ class RegistrationPage extends StatelessWidget {
       ),
     );
   }
+
   // Future<void> registerNewUser(String email , String password) async{
   Future<void> registerNewUser() async{
 
@@ -71,7 +79,6 @@ class RegistrationPage extends StatelessWidget {
     }
   }
 
-
   //Jab required daalte hai tab hum {} brackets daalte hai  
   Future<void> addDataToDatabase({required String uid}) async{
 
@@ -83,6 +90,7 @@ class RegistrationPage extends StatelessWidget {
     .add(user.toJson())
     .then((value){
       log("User Created Succesfully");
+      context.navigateToScreen(ChatScreen(),isReplace: true);
     }).catchError((e){
       log("Failed to create user $e");
     });
