@@ -14,7 +14,7 @@ class LoginScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text("Login", style:titleTextStyle,),
-          TextFormField(),
+          TextFormField(), 
         ],
       ),
     );
