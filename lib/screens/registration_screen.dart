@@ -62,6 +62,10 @@ class RegistrationPage extends StatelessWidget {
       .then((value){
         // iss syntax ka mtlb hai 
         log(value.user!.uid);
+
+        // after registering the user successfully now we will 
+        // call this following function to add the user to the database
+        // respective to it's uid.
         addDataToDatabase(uid: value.user!.uid);
       });
     }
