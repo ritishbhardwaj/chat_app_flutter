@@ -5,6 +5,7 @@ import 'dart:developer';
 
 import 'package:chat_app/extensions/build_context_extensions.dart';
 import 'package:chat_app/widgets/custom_text_field_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -62,6 +63,10 @@ class RegistrationPage extends StatelessWidget {
         log(value.user!.uid);
       });
     }
+  }
 
+  Future<void> addDataToDatabase() async{
+
+    await FirebaseFirestore.instance.collection('users').add(data);
   }
 }
