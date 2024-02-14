@@ -4,6 +4,7 @@
 import 'dart:developer';
 
 import 'package:chat_app/extensions/build_context_extensions.dart';
+import 'package:chat_app/model/users.dart';
 import 'package:chat_app/widgets/custom_text_field_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -61,12 +62,25 @@ class RegistrationPage extends StatelessWidget {
       .then((value){
         // iss syntax ka mtlb hai 
         log(value.user!.uid);
+        addDataToDatabase(uid: value.user!.uid);
       });
     }
   }
 
-  Future<void> addDataToDatabase() async{
 
-    await FirebaseFirestore.instance.collection('users').add(data);
+  //Jab required daalte hai tab hum {} brackets daalte hai  
+  Future<void> addDataToDatabase({required String uid}) async{
+
+    final user = Users(nameController.text, emailController.text, uid, passwordController.text, true, "sdadsa");
+
+    // toJson user vale data 
+    await FirebaseFirestore.instance
+    .collection('users')
+    .add(user.toJson())
+    .then((value){
+      log("User Created Succesfully");
+    }).catchError((e){
+      log("Failed to create user $e");
+    });
   }
 }
