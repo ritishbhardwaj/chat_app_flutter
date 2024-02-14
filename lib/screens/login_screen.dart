@@ -8,9 +8,10 @@ import 'package:chat_app/widgets/custom_text_field_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+   LoginScreen({super.key});
 
-
+  final passwordController = TextEditingController();
+  final emailController = TextEditingController();
 
 
   @override
@@ -22,8 +23,8 @@ class LoginScreen extends StatelessWidget {
           Text("Login", style:titleTextStyle,),
 
           //Email Vala Box
-          CustomTextField(hintText: "Email", isPassword: false, icon:Icons.email),
-          CustomTextField(hintText: "Password", isPassword: true, icon:Icons.lock),
+          CustomTextField(hintText: "Email", isPassword: false, icon:Icons.email,controller: emailController),
+          CustomTextField(hintText: "Password", isPassword: true, icon:Icons.lock, controller: passwordController,),
 
 
 
@@ -41,6 +42,7 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+  // Future<void> 
 }
 
 // class CustomTextField extends StatelessWidget {

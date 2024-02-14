@@ -1,30 +1,64 @@
 
 
 
+import 'dart:developer';
+
 import 'package:chat_app/widgets/custom_text_field_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationPage extends StatelessWidget {
-  const RegistrationPage({super.key});
+   RegistrationPage({super.key});
+
+  final nameController= TextEditingController();
+  final emailController= TextEditingController();
+  final passwordController= TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          
-            CustomTextField(hintText: "Email", isPassword: false, icon: Icons.mail),
-            CustomTextField(hintText: "Full Name", isPassword: false, icon: Icons.mail),
-            CustomTextField(hintText: "Password", isPassword: true, icon: Icons.mail),
-
-            GestureDetector(
-              onTap: (){
-                Navigator.pop(context);
-              },
-              child: Text("Already an user? Go to Login")
+      body: Center(
+        child: Column(
+          children: [
+            
+              CustomTextField(hintText: "Email", isPassword: false, icon: Icons.mail, controller: emailController,),
+              CustomTextField(hintText: "Full Name", isPassword: false, icon: Icons.mail,controller: nameController),
+              CustomTextField(hintText: "Password", isPassword: true, icon: Icons.mail,controller: passwordController),
+        
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(onPressed: (){
+                  
+                },
+                 child: Text("Register Now")
+                                
+                                ),
               ),
-        ],
+        
+              GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Text("Already an user? Go to Login")
+                ),
+          ],
+        ),
       ),
     );
+  }
+  // Future<void> registerNewUser(String email , String password) async{
+  Future<void> registerNewUser() async{
+
+    final email = emailController.text;
+    final password=passwordController.text;
+    FirebaseAuth.instance.
+    createUserWithEmailAndPassword(email: email , password: password)
+    .then((value){
+
+      // iss syntax ka mtlb hai 
+      log(value.user!.uid);
+    });
+
   }
 }
