@@ -1,6 +1,7 @@
 
 
 
+import 'package:chat_app/extensions/build_context_extensions.dart';
 import 'package:chat_app/screens/registration_screen.dart';
 import 'package:chat_app/styles/constant_styles.dart';
 import 'package:chat_app/widgets/custom_text_field_widget.dart';
@@ -24,13 +25,17 @@ class LoginScreen extends StatelessWidget {
           CustomTextField(hintText: "Email", isPassword: false, icon:Icons.email),
           CustomTextField(hintText: "Password", isPassword: true, icon:Icons.lock),
 
+
+
           GestureDetector(
             onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (_)=> RegistrationPage() ));
+              // Navigator.of(context).push(MaterialPageRoute(builder: (_)=> RegistrationPage()));
+
+              // writing above thing after writing extensions
+              context.navigateToScreen(RegistrationPage(),isReplace: true);
             },
             child: Text("new user ?  create new account")
             ),
-
 
         ],
       ),
