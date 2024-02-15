@@ -25,6 +25,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   final passwordController= TextEditingController();
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

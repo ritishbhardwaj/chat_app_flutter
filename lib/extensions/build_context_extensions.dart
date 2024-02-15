@@ -18,4 +18,13 @@ extension BuildContextExtension on BuildContext{
 
 
   }
+
+  double getWidth( {double percent=1}){
+    return MediaQuery.of(this).size.width*percent;
+  }
+
+  double getHeight ( {double percent=1}){
+    return MediaQuery.of(this).size.height*percent;
+  }
+
 }
