@@ -65,6 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
           context.navigateToScreen(ChatScreen(),isReplace: true);
        });
   }
+
+  
 }
 
 // class CustomTextField extends StatelessWidget {
