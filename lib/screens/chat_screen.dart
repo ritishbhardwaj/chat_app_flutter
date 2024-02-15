@@ -36,37 +36,81 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
 
-      body: Column(
+      body: Stack(
 
         children: [
 
-          
+          StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('messages').snapshots(),
+              builder: (context,snapshot){
+                if (snapshot.connectionState==ConnectionState.waiting){
 
+                    return Center(
+                      child: CircularProgressIndicator()
+                      );
 
-          Spacer(),
-          Container(
-            width: double.infinity,
-            height: 100,
-            color: Colors.blue,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 10 , left: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    width: context.getWidth(percent: 0.8),
-                    child: TextField(
-                      controller: textMessagingController,
-                      decoration: InputDecoration(
-                        hintText: "message",
-                        fillColor: Colors.white,filled: true
+                }else if (snapshot.hasError){
+
+                      return Center(child: Text("Fail to send Message"));
+
+                }else if(snapshot.hasData) {
+                  final messages = snapshot.data!.docs;  // this standard form to get data form firebase  [humne messages mei leliya messages]
+
+                  return Positioned(
+                    top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 120,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: messages.length,
+                      itemBuilder: (context,index){
+                        return ListTile(
+                          title: Text(messages[index]['message']),
+                          subtitle: Text(messages[index]['email']),
+                        );
+                      }
                       ),
-                    )),
-              
-                  IconButton(onPressed: (){
-                      sendMessage();
-                  }, icon: const Icon(Icons.send,color: Colors.white,))
-                ],
+                  );
+                }
+                else{
+                  return Center(child: Text("No Messages"));
+                }
+              },
+          ),
+
+
+          // Spacer(),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+
+
+            child: Container(
+              width: double.infinity,
+              height: 100,
+              color: Colors.blue,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10 , left: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      width: context.getWidth(percent: 0.8),
+                      child: TextField(
+                        controller: textMessagingController,
+                        decoration: InputDecoration(
+                          hintText: "message",
+                          fillColor: Colors.white,filled: true
+                        ),
+                      )),
+                
+                    IconButton(onPressed: (){
+                        sendMessage();
+                    }, icon: const Icon(Icons.send,color: Colors.white,))
+                  ],
+                ),
               ),
             ),
           ),
@@ -84,6 +128,7 @@ class _ChatScreenState extends State<ChatScreen> {
       final message= {
         'message':textMessagingController.text,
         "senderUID" : FirebaseAuth.instance.currentUser!.uid,
+        'email' : FirebaseAuth.instance.currentUser!.email,
         'timestamp': DateTime.now().millisecondsSinceEpoch,
       };
       
@@ -98,13 +143,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
 
 // database se messages fetch krna
-  void getMessage() {
+  // void getMessage() {
 
 
-     FirebaseFirestore.instance.collection('messages')
-    .snapshots()
-    .listen((event) {
+  //    FirebaseFirestore.instance.collection('messages')
+  //   .snapshots()
+  //   .listen((event) {
       
-    });
-  }
+  //   });
+  // }
 }
