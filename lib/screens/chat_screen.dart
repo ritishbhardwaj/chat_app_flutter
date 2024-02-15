@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chat_app/extensions/build_context_extensions.dart';
 import 'package:chat_app/screens/login_screen.dart';
 import 'package:chat_app/styles/constant_styles.dart';
@@ -37,6 +39,10 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
 
         children: [
+
+          
+
+
           Spacer(),
           Container(
             width: double.infinity,
@@ -58,7 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     )),
               
                   IconButton(onPressed: (){
-              
+                      sendMessage();
                   }, icon: const Icon(Icons.send,color: Colors.white,))
                 ],
               ),
@@ -72,6 +78,8 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> sendMessage()  async{
+    
+    if (textMessagingController.text.isNotEmpty){
 
       final message= {
         'message':textMessagingController.text,
@@ -79,6 +87,24 @@ class _ChatScreenState extends State<ChatScreen> {
         'timestamp': DateTime.now().millisecondsSinceEpoch,
       };
       
-      FirebaseFirestore.instance.collection('messages').add(data);
+      await FirebaseFirestore.instance.collection('messages').add(message)
+      .then((value){
+        textMessagingController.clear();
+        log(value.toString());
+      });
+
+    }
+  }
+
+
+// database se messages fetch krna
+  void getMessage() {
+
+
+     FirebaseFirestore.instance.collection('messages')
+    .snapshots()
+    .listen((event) {
+      
+    });
   }
 }
